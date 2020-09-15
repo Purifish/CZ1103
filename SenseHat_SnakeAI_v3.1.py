@@ -26,7 +26,7 @@ Pink = (255, 105, 180)
 directions = ['w','a','s','d'] #up, left, down, right
 foodStart = (1,6)
 baseDepth = 7
-delay = 0.17
+delay = 0.17 $default time between each move (may be exceeded if AI thinks for more than this duration)
 maxTime = 120
 foodX, foodY = randint(0,1), randint(0,1)#generate random corner for food starting position
 food = (foodStart[foodX],foodStart[foodY])
@@ -156,7 +156,7 @@ def Maxi(snake, fd, DIR, alpha, beta, initDepth, depth): #miniMax algo. AI aims 
       if not (snake[0][0]+1 == fd[0] and snake[0][1] == fd[1]):
         snake.append(temp) #restore snake to what it was before moving right simulation
       
-      if rightScore >= beta:
+      if rightScore >= beta: #look up alpha-beta pruning for more info
         break
       if rightScore > alpha:
         alpha = rightScore
@@ -269,10 +269,9 @@ while True:
   else: maxDepth = baseDepth + 25
   
   evalStart = time.time()
-  choices = Maxi(snakeTemp, food, snakeDir, -10000, 1000, maxDepth, maxDepth)
+  ch = Maxi(snakeTemp, food, snakeDir, -10000, 1000, maxDepth, maxDepth)
   while time.time() - evalStart < delay: #prevents snake from moving too fast
     pass
-  ch = choices
   if ch == 'w' and snakeDir != 's': #choose to move up
     if Snake[0][0] == food[0] and Snake[0][1]-1 == food[1]:
       grow = True
@@ -298,7 +297,7 @@ while True:
     food = generateFood(Snake)
     if food != (0,0):#if this is true then there is no more space
       s.set_pixel(food[0],food[1], G)
-    else:
+    else: #ends game 10s after final food was eaten
       maxTime = 10
       start = time.time()
   
