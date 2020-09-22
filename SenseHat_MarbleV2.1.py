@@ -3,8 +3,9 @@
   
   The objective is to score 5 points by catching the green target with the white marble 5 times.
   7 seconds is given for each target spawn. Score will reset to 0 if 7 seconds has passed.
+  The game consists of 2 maps, each with its own portal to the other. The target may spawn in either map.
+
   Time and Points Limit can be changed by changing scoreToWin and timeBtwSpawns
-  
 '''
 
 from sense_hat import SenseHat
@@ -134,8 +135,8 @@ def generateTarget(x, y):
     return generateTarget(x,y) #lazy bug-fixer, by right this should never be needed
 
 score = 0
-x,y = 1, 1
-targX, targY, targMap = 6, 1, 1
+x,y = 1, 1 #default marble position
+targX, targY, targMap = 6, 1, 1 #default target position
 board[y][x] = w
 board[targY][targX] = g
 scoreToWin = 5 #defines score needed to win
